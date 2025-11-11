@@ -3,6 +3,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+requirements_no_xgboost.txt
+
 # C extensions
 *.so
 

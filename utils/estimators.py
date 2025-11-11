@@ -211,7 +211,7 @@ def create_simple_NN(input_dim):
     # use the backbone NN from TAR-Net
     model = keras.Sequential(
         [
-            layers.InputLayer(input_shape=(input_dim,), name="input_layer"),
+            layers.InputLayer(shape=(input_dim,), name="input_layer"),
             layers.Dense(
                 units=200, activation="elu", kernel_initializer="RandomNormal"
             ),
@@ -240,7 +240,7 @@ def train_and_estimate_NN1(x, t, yf, x_test):
 
     new_x = np.concatenate((x, t[:, np.newaxis]), axis=1)
     model = create_simple_NN(new_x.shape[-1])
-    model.compile(loss="mean_squared_error", optimizer="adam", metrics="mse")
+    model.compile(loss="mean_squared_error", optimizer="adam", metrics=["mse"])
     model.fit(new_x, yf, epochs=50, verbose=0)
     y0_in, y1_in = predict_by_COM(model, x, keras_model=True)
     ate_in = np.mean(y1_in - y0_in)
@@ -271,7 +271,7 @@ def train_and_estimate_NN2(x, t, yf, x_test):
     for i in range(len(models)):
         model = create_simple_NN(x.shape[-1])
         model.compile(
-            loss="mean_squared_error", optimizer="adam", metrics="mse"
+            loss="mean_squared_error", optimizer="adam", metrics=["mse"]
         )
         if i == 0:
             model.fit(x0, yf[t0], epochs=50, verbose=0)
